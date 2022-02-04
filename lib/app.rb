@@ -19,7 +19,7 @@ def fetch_timestamps_from(date)
   last_year_ending = last_year + 1
   beginning_timestamp = last_year.strftime('%s')
   ending_timestamp = last_year_ending.strftime('%s')
-  puts "#{last_year.year}...."
+  puts "#{last_year.year}..."
   [beginning_timestamp, ending_timestamp]
 end
 
@@ -71,7 +71,7 @@ def output
   results = collect_all_tracks
   if results != {}
     random_song = results.values.sample
-    puts "On this day in #{results.key(random_song)} you played #{random_song.sample}!"
+    puts "On this day in #{results.key(random_song)} you played #{random_song.sample}"
   else
     puts "You've never played a song on this date. Sad!"
   end
