@@ -5,16 +5,16 @@ require 'json'
 require 'open-uri'
 require 'dotenv/load'
 
-API_KEY = ENV['API_KEY']
+KEY = ENV['API_KEY']
 ROOT_URL = 'http://ws.audioscrobbler.com/2.0/'
 
-puts 'Please tell me your username.'
+puts 'What\'s your username?'
 USER = gets.chomp
 
 puts 'How far do you want to go back? Please type in a year.'
 YEAR = gets.chomp.to_i
 
-def fetch_timestamps_from(date)
+def create_timestamps_from(date)
   last_year = date.prev_year
   last_year_ending = last_year + 1
   beginning_timestamp = last_year.strftime('%s')
@@ -23,11 +23,8 @@ def fetch_timestamps_from(date)
   [beginning_timestamp, ending_timestamp]
 end
 
-def build_url_with(unix)
-  "#{ROOT_URL}?method=user.getrecenttracks&user=#{USER}&api_key=#{API_KEY}&from=#{unix[0]}&to=#{unix[1]}&format=json"
-end
-
-def fetch_tracks(url)
+def fetch_tracks_for(time)
+  url = "#{ROOT_URL}?method=user.getrecenttracks&user=#{USER}&api_key=#{KEY}&from=#{time[0]}&to=#{time[1]}&format=json"
   json_output = JSON.parse(open(url).read)
   json_output['recenttracks']['track']
 end
@@ -53,9 +50,8 @@ def collect_all_tracks
   puts 'Traveling back in time...'
 
   while today.year > YEAR
-    timestamps = fetch_timestamps_from(today)
-    url = build_url_with(timestamps)
-    json = fetch_tracks(url)
+    timestamps = create_timestamps_from(today)
+    json = fetch_tracks_for(timestamps)
     if json != []
       array_of_songs = fetch_all_songs_from_past_date(json)
       year = calculate_year_for_results_hash(timestamps)
