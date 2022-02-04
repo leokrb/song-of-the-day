@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dotenv (2.7.6)
+
+PLATFORMS
+  x86_64-darwin-19
+
+DEPENDENCIES
+  dotenv (~> 2.7)
+
+BUNDLED WITH
+   2.3.6
